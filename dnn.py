@@ -46,7 +46,6 @@ class DNN(object):
                         for w, nw in zip(self.weights, nabla_w)]
         self.biases = [b - (eta / len(mini_batch)) * nb
                        for b, nb in zip(self.biases, nabla_b)]
-        return
 
     def backPropagation(self, x, y):
         nabla_b = [np.zeros(b.shape) for b in self.biases]
@@ -65,7 +64,7 @@ class DNN(object):
 
         # Back propagation
         # BP 1
-        delta = np.multiply(self.costDerivative(activations[-1], y), self.sigmoidPrime(zs[-1]))
+        delta = self.costDerivative(activations[-1], y) * self.sigmoidPrime(zs[-1])
         nabla_b[-1] = delta
         nabla_w[-1] = np.dot(delta, activations[-2].transpose())
 
@@ -84,7 +83,7 @@ class DNN(object):
 
 
     def costDerivative(self, output_activations, y):
-        return y-output_activations
+        return output_activations-y
 
 
 
