@@ -87,6 +87,7 @@ class DNN(object):
         return y-output_activations
 
 
+
 if __name__ == '__main__':
     net = DNN(sizes = [2, 3, 1])
     print(net.biases[0].shape)
