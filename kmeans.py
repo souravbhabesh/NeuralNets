@@ -33,7 +33,7 @@ def intraClusterDistance(data, centroid, cluster_assignment):
     return max_intra_cluster_dist
 
 def kmeans(data, k, iteration=10):
-    # Select k random points from the data as centroids
+    # Select k random points from the data as the initial i centroids
     k_random_pts = np.random.randint(data.shape[0], size=k)
     centroid = [data[i] for i in k_random_pts]
     print("Initial centroids are {0}".format(centroid))
