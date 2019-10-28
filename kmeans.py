@@ -25,8 +25,8 @@ def inertia(data, centroid, cluster_assignment):
     return inertia
 
 def intraClusterDistance(data, centroid, cluster_assignment):
+    max_intra_cluster_dist = 0
     for _cluster in np.unique(cluster_assignment):
-        max_intra_cluster_dist = 0
         # Filter the data points that belong to the current cluster
         _data = data[cluster_assignment == _cluster]
         max_intra_cluster_dist = np.max(np.linalg.norm((_data - centroid[_cluster]), axis=1))
@@ -88,7 +88,7 @@ if __name__ == "__main__":
     k_dunn = []
     k_inertia = []
     for k in range(2,7):
-        cluster_assignment, centroid, dunn_index, inertia_cluster = kmeans(x, k=k, iteration=8)
+        cluster_assignment, centroid, dunn_index, inertia_cluster = kmeans(x, k=k, iteration=20)
         print("Cluster Assignment shape ",cluster_assignment.shape)
         k_dunn.append(np.array([k, dunn_index]))
         k_inertia.append(np.array([k, inertia_cluster]))
