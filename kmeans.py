@@ -84,6 +84,7 @@ if __name__ == "__main__":
     print(x.shape)
     # print(x[:,0])
 
+
     # Number of clusters versus Dunn index
     k_dunn = []
     k_inertia = []
