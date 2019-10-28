@@ -38,8 +38,11 @@ def kmeans(data, k, iteration=10):
         # Calculating Dunn Index for current cluster assignments
         max_intra_cluster_distance = np.max(intra_cluster_dist)
         min_inter_cluster_distance = interClusterDistance(np.asarray(centroid))
-        print("Dunn index at iter {0} : {1}".format(_iter,
-                            dunnIndex(min_inter_cluster_distance, max_intra_cluster_distance)))
+        dunn_index = dunnIndex(min_inter_cluster_distance, max_intra_cluster_distance)
+        print("Dunn index at iter {0} : {1}".format(_iter,dunn_index))
+
+        # Calculating the Inertia for current cluster assignments
+        inertia = np.sum(intra_cluster_dist)
 
         # Step 4: Recompute the centroids of newly formed clusters
         clusters, cluster_counts = np.unique(cluster_assignment, return_inverse=False, return_counts=True)
@@ -52,7 +55,7 @@ def kmeans(data, k, iteration=10):
             centroid[_k] = new_centroid[_k]
         # print("Updated centroids are {0} ".format(centroid))
 
-    return cluster_assignment, centroid
+    return cluster_assignment, centroid, dunn_index
 
 
 if __name__ == "__main__":
@@ -65,7 +68,18 @@ if __name__ == "__main__":
     print(x.shape)
     # print(x[:,0])
 
-    cluster_assignment, centroid = kmeans(x, k=3, iteration=20)
+    # Number of clusters versus Dunn index
+    k_dunn = []
+    for k in range(2,7):
+        cluster_assignment, centroid, dunn_index = kmeans(x, k=k, iteration=20)
+        k_dunn.append(np.array([k, dunn_index]))
+    k_dunn = np.asarray(k_dunn)
+    plt.figure(figsize=(12, 6))
+    plt.plot(k_dunn[:,0], k_dunn[:,1], marker='o')
+    plt.xlabel('Number of clusters')
+    plt.ylabel('Dunn Index')
+    plt.show()
+
     plt.scatter(X["ApplicantIncome"], X["LoanAmount"], c=cluster_assignment)
     plt.scatter(np.asarray(centroid)[:, 1], np.asarray(centroid)[:, 0], c='red')
     plt.xlabel('AnnualIncome')
